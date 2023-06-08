@@ -6,7 +6,7 @@ from datetime import date
 class Person:
     """Person base class for a hotel management system"""
     
-    def __init__(self, name, start, end):
+    def __init__(self, name, start=date.today(), end=None):
         """
         Sets up a Person instance with name, start date, and end date parameters.
         Parameters start and end should be date objects.

@@ -1,13 +1,12 @@
 # SWDV 630 - Object-Oriented Software Architecture
 # Factory for producing Person instances
 
-from datetime import date
 from person import Guest, Employee, Manager
 
 class PersonFactory:
     
-    @classmethod
-    def create(cls, type, *args, **kwargs):
+    @staticmethod
+    def create(type, *args, **kwargs):
         type = type.strip().lower()
 
         if type == 'guest':
@@ -18,9 +17,9 @@ class PersonFactory:
             return Manager(*args, **kwargs)
 
 def test():
-    guest = PersonFactory.create('guest', 101, 'Brandon', date.today(), None)
-    employee = PersonFactory.create('employee', 20, 'Hannah', date.today(), None) 
-    manager = PersonFactory.create('manager', 110, 25, 'Bridgett', date.today(), None)
+    guest = PersonFactory.create('guest', 101, 'Brandon')
+    employee = PersonFactory.create('employee', 20, 'Hannah') 
+    manager = PersonFactory.create('manager', 110, 25, 'Bridgett')
 
     for person in [guest, employee, manager]:
         print(type(person))
