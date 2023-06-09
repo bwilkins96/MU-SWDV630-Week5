@@ -4,10 +4,14 @@
 from copy import copy, deepcopy
 
 class Prototype:
+    """Prototype base class with methods for producing deep and shallow clones"""
+    
     def clone(self):
+        """Returns a deep clone of self"""
         return deepcopy(self)
     
     def shallow_clone(self):
+        """Returns a shallow clone of self"""
         return copy(self)
     
 class Room(Prototype):

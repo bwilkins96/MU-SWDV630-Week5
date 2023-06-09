@@ -4,9 +4,14 @@
 from person import Guest, Employee, Manager
 
 class PersonFactory:
-    
+    """Factory class for producing Person instances"""
+
     @staticmethod
     def create(type, *args, **kwargs):
+        """
+        Returns a Person subclass instance based on the type parameter
+        i.e. PersonFactory.create('guest', room, name, start, end) 
+        """
         type = type.strip().lower()
 
         if type == 'guest':
@@ -17,6 +22,7 @@ class PersonFactory:
             return Manager(*args, **kwargs)
 
 def test():
+    help(PersonFactory)
     guest = PersonFactory.create('guest', 101, 'Brandon')
     employee = PersonFactory.create('employee', 20, 'Hannah') 
     manager = PersonFactory.create('manager', 110, 25, 'Bridgett')

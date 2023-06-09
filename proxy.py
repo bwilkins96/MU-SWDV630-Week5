@@ -22,10 +22,12 @@ class Stay:
         self._end = date.today()
 
 class StayProxy:
+    """Proxy class that tracks the number of Stay instances, both total and checked-in"""
     _total_count = 0
     _checked_in_count = 0
 
     def __new__(cls, *args):
+        """Overloaded __new__ method for incrementing total_count"""
         instance = object.__new__(cls)
         cls.incr_total()
         return instance
@@ -34,10 +36,12 @@ class StayProxy:
         self._stay = stay
 
     def check_in(self):
+        """Adapted check_in method for incrementing checked_in_count"""
         self._stay.check_in()
         self.incr_checked_in()
 
     def check_out(self):
+        """Adapted check_out method for decrementing checked_in_count"""
         self._stay.check_out()
         self.decr_checked_in()
 
@@ -66,9 +70,11 @@ class StayProxy:
         cls._checked_in_count -=1
     
     def __getattr__(self, name):
+        """Routes attribute calls to encapsulated Stay object"""
         return getattr(self._stay, name)
 
     def __del__(self):
+        """Overloaded __del__ method for decrementing counts"""
         if self._stay.checked_in():
             self.check_out()
 
@@ -77,6 +83,7 @@ class StayProxy:
 def test():
     proxy_list = []
 
+    # Produce 20 checked-in stays
     for i in range(20):
         proxy = StayProxy(Stay(i, None, None))
         proxy.check_in()
@@ -85,12 +92,14 @@ def test():
     print(StayProxy.get_total())               # -> 20 
     print(StayProxy.get_checked_in(), '\n')    # -> 20
 
+    # Check out half of stays
     for i in range(10):
         proxy_list[i].check_out()
 
     print(StayProxy.get_total())               # -> 20 
     print(StayProxy.get_checked_in(), '\n')    # -> 10
 
+    # Remove 5 checked-in stays
     del proxy_list[10:15]
 
     print(StayProxy.get_total())               # -> 15 
