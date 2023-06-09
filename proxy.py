@@ -14,12 +14,18 @@ class Stay:
         return self._checked_in
 
     def check_in(self):
+        if self.checked_in(): return False
+        
         self._checked_in = True
         self._start = date.today()
+        return True
 
     def check_out(self):
+        if not self.checked_in(): return False
+        
         self._checked_in = False
         self._end = date.today()
+        return True
 
 class StayProxy:
     """Proxy class that tracks the number of Stay instances, both total and checked-in"""
@@ -37,13 +43,13 @@ class StayProxy:
 
     def check_in(self):
         """Adapted check_in method for incrementing checked_in_count"""
-        self._stay.check_in()
-        self.incr_checked_in()
+        if self._stay.check_in():
+            self.incr_checked_in()
 
     def check_out(self):
         """Adapted check_out method for decrementing checked_in_count"""
-        self._stay.check_out()
-        self.decr_checked_in()
+        if self._stay.check_out():
+            self.decr_checked_in()
 
     @classmethod  
     def get_total(cls):
