@@ -68,6 +68,11 @@ class StayProxy:
     @classmethod
     def decr_checked_in(cls):
         cls._checked_in_count -=1
+
+    @classmethod
+    def create(cls, *args):
+        """Returns a StayProxy with a Stay created using args"""
+        return cls(Stay(*args))
     
     def __getattr__(self, name):
         """Routes attribute calls to encapsulated Stay object"""
@@ -84,8 +89,13 @@ def test():
     proxy_list = []
 
     # Produce 20 checked-in stays
-    for i in range(20):
+    for i in range(10):
         proxy = StayProxy(Stay(i, None, None))
+        proxy.check_in()
+        proxy_list.append(proxy)
+
+    for i in range(10):
+        proxy = StayProxy.create(i, None, None)
         proxy.check_in()
         proxy_list.append(proxy)
 
