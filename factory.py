@@ -22,7 +22,6 @@ class PersonFactory:
             return Manager(*args, **kwargs)
 
 def test():
-    help(PersonFactory)
     guest = PersonFactory.create('guest', 101, 'Brandon')
     employee = PersonFactory.create('employee', 20, 'Hannah') 
     manager = PersonFactory.create('manager', 110, 25, 'Bridgett')
